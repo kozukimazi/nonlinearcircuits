@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/nonlinearcircuits.dir/main.cc.o CMakeFiles/nonlinearcircuits.dir/src/twotermdevice.cc.o CMakeFiles/nonlinearcircuits.dir/src/mosfet.cc.o CMakeFiles/nonlinearcircuits.dir/src/mosfetfreebody.cc.o -o nonlinearcircuits 

@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(nonlinearcircuits
+    VERSION 1.0
+    LANGUAGES CXX
+)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+#find_package(Eigen3 REQUIRED)
+# Include Eigen headers
+include_directories(/home/mazi/Desktop/eigen-3.4.0)
+
+add_executable(nonlinearcircuits
+    main.cc
+    src/twotermdevice.cc
+)
+
+target_include_directories(nonlinearcircuits
+    PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+)
+
+#target_link_libraries(nonlinearcircuits
+ #   PRIVATE
+ #   Eigen3::Eigen
+#)
