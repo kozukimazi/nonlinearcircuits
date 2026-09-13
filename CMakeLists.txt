@@ -17,7 +17,9 @@ add_executable(nonlinearcircuits
     src/twotermdevice.cc
     src/mosfet.cc             
     src/mosfetfreebody.cc
-)
+    src/circuits.cc
+    src/utils.cc
+    )
 
 # Forzar flag -O3 para este objetivo específico
 if(MSVC)

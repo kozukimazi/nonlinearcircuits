@@ -1,0 +1,3 @@
+/home/mazi/Desktop/doctorado/nonlinearcircuits/src/CMakeFiles/nonlinearcircuits.dir
+/home/mazi/Desktop/doctorado/nonlinearcircuits/src/CMakeFiles/edit_cache.dir
+/home/mazi/Desktop/doctorado/nonlinearcircuits/src/CMakeFiles/rebuild_cache.dir
