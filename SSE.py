@@ -165,7 +165,10 @@ class circuit:
         return
 
     def __build_C_matrix(self):
-        """Contruct the lumped and Maxwell capacitance matrices"""
+        """Construct the lumped and Maxwell capacitance matrices"""
+#aqui se construye la matriz de capacitancia lumped y maxwell
+#la matriz lumped es simetrica y la maxwell es diagonal dominante
+#para aplicar q = C*V, donde q es el vector de cargas, C es la matriz de capacitancia y V es el vector de voltajes
 
         self.lumped_C = np.zeros((self.N,self.N))
 
@@ -267,18 +270,25 @@ class circuit:
 
         return dV
 
+
+#sustitute the average voltage change for the forward and reverse transitions of a device, 
+#given the current voltage and the change in voltage of the device
 @njit
 def av_deltaV(V, dV, dev_term, control_a, control_b, t):
 
     av_V_f = V + dV/2
     av_V_r = V - dV/2
 
+#dev_term es una tupla que contiene los indices de los terminales del dispositivo, 
+#por ejemplo (1,2) 
     av_DV_f = av_V_f[dev_term[0]-1] - av_V_f[dev_term[1]-1]
     av_DV_r = av_V_r[dev_term[0]-1] - av_V_r[dev_term[1]-1]
 
     av_DV_ctrl_f = []
     av_DV_ctrl_r = []
 
+#Aquí se van a guardar los voltajes 
+#de todos los terminales de control del dispositivo
     for ctrl_a, ctrl_b in zip(control_a, control_b):
 
         av_DV_control_f = av_V_f[ctrl_a-1] - av_V_f[ctrl_b-1]
@@ -295,15 +305,18 @@ class simulation:
     def __init__(self, circuit):
 
         self.circuit = circuit
-
+#reserva espacios para las tasas de transicion hacia adelante y hacia atras de cada dispositivo
         self.rates_f = np.zeros((len(self.circuit.dev),1))
         self.rates_r = np.zeros_like(self.rates_f)
-
+#almacena voltajes promedio de transición
         self.av_dv_f = np.zeros_like(self.rates_f)
         self.av_dv_r = np.zeros_like(self.rates_f)
 
         self.controls_a = []
         self.controls_b = []
+#dev[1].control = [(3,4), (5,6)]   
+#dev[1] es el objeto del dispositivo, 
+#dev[1].control es una lista de tuplas que contiene los indices de los terminales de control del dispositivo
         for dev in self.circuit.dev:
             self.controls_a.append(np.array([c[0] for c in dev[1].control], dtype=np.int64))
             self.controls_b.append(np.array([c[1] for c in dev[1].control], dtype=np.int64))
@@ -322,11 +335,17 @@ class simulation:
         self.dt = dt
         self.tf = tf
         self.times = np.arange(0,tf,dt)
+
+        #esto va a guardar la dinámica de cada salto
         self.traj = np.zeros((self.circuit.Nf, len(self.times)), dtype=np.int64)
+        #este guarda cuantos saltos se dieron en cada dispositivo 
+        #en cada paso de tiempo
         self.jumps = np.zeros((len(self.circuit.dev), len(self.times)-1), dtype=np.int64)
+        
         self.Q = np.zeros((len(self.circuit.dev), len(self.times)-1))
 
         if init_st != None:
+            #trayectoria a tiempo 0
             self.traj[:,0] = init_st
 
         for s in range(len(self.times)-1):
@@ -344,12 +363,15 @@ class simulation:
         for d in range(self.Ndev):
 
             dV = self.dV[d]
+            #dev_term es una tupla que contiene los indices de los terminales del dispositivo
             dev_term = self.circuit.dev[d][0]
+            #dev es el objeto del dispositivo, que tiene los métodos lf y lr para calcular las tasas de transición
             dev = self.circuit.dev[d][1]
 
             av_DV_f, av_DV_r, ctrl_f, ctrl_r = \
             av_deltaV(V, dV, dev_term, self.controls_a[d], self.controls_b[d], t)
 
+            #tasas de transición hacia adelante y hacia atrás para el dispositivo d
             self.rates_f[d] = dev.lf(av_DV_f, ctrl_f)
             self.rates_r[d] = dev.lr(av_DV_r, ctrl_r)
 
@@ -358,9 +380,12 @@ class simulation:
 
         Nf = np.random.poisson(self.rates_f*self.dt)
         Nr = np.random.poisson(self.rates_r*self.dt)
+        #número de saltos netos en cada dispositivo, vector de tamaño Ndev 
         Nj = Nf - Nr
 
+        #aquí calcula \Delta q = \Delta_free *  Nj, donde \Delta_free es la matriz de incidencia de los dispositivos en los conductores libres
         dq = self.circuit.free_Delta.dot(Nj) # charge change
+        #intercambio de calor, durante las transiciones hacia adelante y hacia atrás.
         Q = Nf*self.av_dv_f - Nr*self.av_dv_r # heat
 
         return dq, Nj, Q
@@ -378,9 +403,11 @@ class simulation:
         if init_st != None:
             self.traj.append(init_st)
         else:
+            # Si no se proporciona un estado inicial, se crea uno con ceros
             self.traj.append(np.zeros((self.circuit.Nf, 1)))
 
         while self.times[-1] < self.tf:
+
             dt, dq, jump = self.__update_gillespie(self.traj[-1], self.times[-1])
             self.times.append(self.times[-1] + dt)
             self.traj.append(self.traj[-1] + dq)
