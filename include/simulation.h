@@ -17,6 +17,8 @@ struct DeltaVResult {
 DeltaVResult av_deltaV(
     const Eigen::VectorXd& V,
     const Eigen::VectorXd& dV,
+    //template que permite pasar cualquier tipo de contenedor que tenga dos elementos
+    //El & permite pasar por referencia, evitando copias innecesarias
     const std::pair<int, int>& dev_term,
     const Eigen::VectorXi& ctrl_a,
     const Eigen::VectorXi& ctrl_b,

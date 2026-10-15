@@ -46,6 +46,7 @@ struct Device
 
 class Circuit
 {
+    friend class Simulation;
 private:
 
     // Datos originales del circuito

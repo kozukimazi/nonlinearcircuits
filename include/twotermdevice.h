@@ -19,6 +19,8 @@ public:
         const std::vector<std::pair<int,int>>& control
     );
 
+    // Agrégalo en la sección public:
+    const std::vector<std::pair<int,int>>& get_control() const { return control; }
     virtual ~TwoTermDevice() = default;
 //garantiza que los objetos de las clases hijas se destruyan 
 //correctamente cuando se manejan a través de un puntero de TwoTermDevice.

@@ -1,0 +1,10 @@
+^C:\USERS\KOZUK\DESKTOP\DOCTORADO\NONLINEARCIRCUITS\CMAKELISTS.TXT
+setlocal
+C:\Strawberry\c\bin\cmake.exe -SC:/Users/kozuk/Desktop/doctorado/nonlinearcircuits -BC:/Users/kozuk/Desktop/doctorado/nonlinearcircuits/build --check-stamp-file C:/Users/kozuk/Desktop/doctorado/nonlinearcircuits/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
