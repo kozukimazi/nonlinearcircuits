@@ -18,7 +18,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 
 add_executable(nonlinearcircuits
-    main.cc
+    pbit.cc
     src/twotermdevice.cc
     src/mosfet.cc             
     src/mosfetfreebody.cc

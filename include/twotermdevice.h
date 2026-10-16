@@ -19,7 +19,7 @@ public:
         const std::vector<std::pair<int,int>>& control
     );
 
-    // Agrégalo en la sección public:
+    //permite acceder a los miembros protegidos de la clase base desde las clases derivadas
     const std::vector<std::pair<int,int>>& get_control() const { return control; }
     virtual ~TwoTermDevice() = default;
 //garantiza que los objetos de las clases hijas se destruyan 

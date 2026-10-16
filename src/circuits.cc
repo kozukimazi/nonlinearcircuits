@@ -26,15 +26,16 @@ void Circuit::set_N()
     N = 0;
 //
 //auto& sirve para deducir 
-//el tipo de una variable manteniendo su condición de referencia,
+//el tipo de una variable manteniendo su condición de referencia
+//recorre cada elemento del vector cap y lo asigna a la variable c, que es una referencia constante al elemento actual del vector.
     for (const auto& c : cap)
     {
         N = std::max(N, c.node_a);
         N = std::max(N, c.node_b);
     }
-
+//finalmente tomará el nodo más grande, para saber cuántos nodos hay en total en el circuito, y lo almacenará en la variable N.
     for (const auto& d : dev)
-    {
+    {   //tomara el primer o segundo nodo del par de terminales del dispositivo
         N = std::max(N, d.terminals.first);
         N = std::max(N, d.terminals.second);
     }

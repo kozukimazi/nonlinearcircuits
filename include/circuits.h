@@ -22,6 +22,7 @@ struct Capacitor
 
 // Fuente: nodo regulado + voltaje
 // El voltaje puede ser un double o una función de t
+// Ocupa la memoria del objeto más pesado
 struct Source
 {
     int node;
@@ -45,7 +46,7 @@ struct Device
 
 
 class Circuit
-{
+{ //declaro simulation como amiga de circuit para que pueda acceder a sus miembros privados
     friend class Simulation;
 private:
 
@@ -57,10 +58,11 @@ private:
 
     // Número de conductores
     int N;
+    //Registros de nodos regulados y libres
     int Nr;
     int Nf;
 
-
+    //Debo entender bien estas matrices 
     // Matrices de capacitancia
     Eigen::MatrixXd lumped_C;
     Eigen::MatrixXd maxwell_C;

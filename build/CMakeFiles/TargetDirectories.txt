@@ -1,3 +1,3 @@
-C:/Users/kozuk/Desktop/doctorado/nonlinearcircuits/build/CMakeFiles/nonlinearcircuits.dir
-C:/Users/kozuk/Desktop/doctorado/nonlinearcircuits/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/kozuk/Desktop/doctorado/nonlinearcircuits/build/CMakeFiles/ZERO_CHECK.dir
+/home/mazi/Desktop/doctorado/nonlinearcircuits/build/CMakeFiles/nonlinearcircuits.dir
+/home/mazi/Desktop/doctorado/nonlinearcircuits/build/CMakeFiles/edit_cache.dir
+/home/mazi/Desktop/doctorado/nonlinearcircuits/build/CMakeFiles/rebuild_cache.dir
